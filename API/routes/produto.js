@@ -48,9 +48,8 @@ app.get("/:id", function(request, response) {
 
 app.post("/", function(request, response) {
     conexao.query(
-        "INSERT INTO produtos (descricao) values ('" +
-        request.body.descricao +
-        "')",
+        "INSERT INTO produtos (descricao,idcategoria) values ('" +
+        request.body.descricao + "', '" + parseInt(request.body.idcategoria)+ "' )",
     function(error, rows) {
         if (error) {
             response.status(500).send(error);
@@ -61,9 +60,9 @@ app.post("/", function(request, response) {
 
 app.put("/:id", function(request, response) {
     let sql = `UPDATE produtos
-           SET descricao = ?
+           SET descricao = ? , idcategoria = ?
            WHERE id = ?`;
-    let data = [request.body.descricao, parseInt(request.params.id)];
+    let data = [request.body.descricao, parseInt(request.body.idcategoria), parseInt(request.params.id)];
  
     conexao.query(sql, data, (error, results, fields) => {
     if (error){
