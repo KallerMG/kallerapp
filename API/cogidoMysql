@@ -1,1 +1,23 @@
 create database bancokaller;
+
+create table categoria (
+	id int(25) NOT NULL auto_increment,
+    descricao varchar(255) default null,
+    primary key (id)
+)engine=InnoDB default charset = utf8;
+
+CREATE TABLE produtos (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    descricao varchar(255) DEFAULT NULL,
+    idcategoria int(25) NOT NULL, 
+    PRIMARY KEY (`id`),
+    foreign key (idcategoria) references categoria(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO produtos ( descricao,idcategoria )
+   VALUES
+   ("oilasdsdsds", 3);
+
+select  produtos.id,produtos.descricao,categoria.descricao from produtos 
+inner join categoria on idcategoria = produtos.idcategoria = categoria.id
+

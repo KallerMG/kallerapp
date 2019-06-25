@@ -13,10 +13,11 @@ app.use(bodyParser.json());
 
 var index = require("./routes/index");
 var produto = require("./routes/produto");
+var categoria = require("./routes/categoria");
 
 app.use("/", index);
 app.use("/produto",produto);
-
+app.use("/categoria",categoria);
 
 
 
