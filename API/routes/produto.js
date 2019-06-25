@@ -1,6 +1,18 @@
 var express = require("express");
 var router = express.Router();
+const mysql = require("mysql");
 var app = express();
+
+const conexao = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password:'84093399',
+    database:'bancokaller',
+    port: '3007'
+});
+
+conexao.connect();
+
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
@@ -9,76 +21,67 @@ app.use(function(req, res, next) {
 })
 
 
-const produtos = [
-    {
-    id: 1,
-    descricao: "Tênis"
-    },
-    {
-    id: 2,
-    descricao: "Camiseta"
-    },
-    {
-    id: 3,
-    descricao: "Boné"
-    }
-];
 
 app.get("/", function(request, response) {
-    response.status(200).send(produtos);
+    conexao.query("SELECT * FROM produtos", function(error, rows) {
+    if (error) {
+        response.status(500).send(error);
+    }
+        response.status(200).send(rows);
+    });
 });
 
 app.get("/:id", function(request, response) {
-    let produto = produtos.find(
-        produto => produto.id === parseInt(request.params.id)
-    );
-    
-    if (produto) {
-        response.status(200).send(produto);
-    } else {
-        response.status(404).send("Not Found");
-    }
+    conexao.query(
+        "SELECT * FROM produtos where id = " + parseInt(request.params.id),
+        function(error, rows) {
+            if (error) {
+                response.status(500).send(error);
+            }
+            if (rows.length > 0) {
+                response.status(200).send(rows);
+            } else {
+                response.status(404).send("Not Found");
+            }
+        });
 });
 
 app.post("/", function(request, response) {
-    let proximo = produtos.length + 1;
-    
-    let novo = {
-    id: proximo,
-    descricao: request.body.descricao
-    };
-    produtos.push(novo);
-    response.status(201).send(novo);
+    conexao.query(
+        "INSERT INTO produtos (descricao) values ('" +
+        request.body.descricao +
+        "')",
+    function(error, rows) {
+        if (error) {
+            response.status(500).send(error);
+        }
+            response.status(201).send("");
+    });
 });
 
 app.put("/:id", function(request, response) {
-    let produto = produtos.find(
-    produto => produto.id === parseInt(request.params.id)
-    );
-    if (produto) {
-        let alterado = {
-            id: produto.id,
-            descricao: request.body.descricao
-        };
-    let index = produtos.indexOf(produto);
-    produtos.splice(index, 1, alterado);
-    response.status(204).send(alterado);
-    } else {
-        response.status(404).send("Not Found");
+    let sql = `UPDATE produtos
+           SET descricao = ?
+           WHERE id = ?`;
+    let data = [request.body.descricao, parseInt(request.params.id)];
+ 
+    conexao.query(sql, data, (error, results, fields) => {
+    if (error){
+        response.status(500).send(error);
     }
+        response.status(204).send("");
+    });
 });
 
 app.delete("/:id", function(request, response) {
-    let produto = produtos.find(
-    produto => produto.id === parseInt(request.params.id)
-    );
-    
-    if (produto) {
-        let index = produtos.indexOf(produto);
-        produtos.splice(index, 1);
-    }
-    
-    response.status(204).send("DELETE");
+    conexao.query(
+        "DELETE from produtos where id = " + parseInt(request.params.id),
+    function(error, rows) {
+        if (error) {
+            response.status(500).send(error);
+        }
+            response.status(204).send("");
+    });
 });
 
 
