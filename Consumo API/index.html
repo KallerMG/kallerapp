@@ -19,7 +19,7 @@
                 </a>
             </div>
                 Consumindo recursos da API do Kaller <br /><br />
-            <table class="table table-striped">
+            <table class="table table-striped" id="tabproduto">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -50,7 +50,8 @@
                 success: function(response) {
                     response.forEach(element => {
                         $(".table tbody").append(
-                        '<tr><th scope="row">' + element.id + "</th><td>" + element.descricao + "</td><td>" +  '<button type="button" class="btn btn-info"> ver </button> ' + "</td></tr>"
+                        '<tr><th scope="row">' + element.id + "</th><td>" + element.descricao + "</td><td>" +  
+                            '<button type="button" class="btn btn-info"> ver </button> <button type="button" class="btn btn-warning"> editar </button> <button type="button" class="btn btn-danger" onclick = "delproduto('+ element.id+')"> deletar </button> ' + "</td></tr>"
                         );
                     });
                 },
@@ -59,6 +60,23 @@
                 },
                 dataType: "json"
                 });
+        </script>
+        
+        
+        <script>
+           function delproduto(id){
+            $.ajax({
+                        url: 'http://localhost:3000/produto/' + id,
+                        type: "DELETE",
+                        success: function(response) {
+                            window.location.href = "./index.html";
+                        },
+                        error: function(data) {
+                            console.log("erro");
+                        },
+                        dataType: "text"
+                    });
+           }   
         </script>
     </body>
 </html>
