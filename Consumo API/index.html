@@ -13,9 +13,8 @@
         <div class="container">
             <h1>API do Kaller</h1>
             <div class="row float-right">
-                <a href="adicionar.html">
+                <a href="adicionar_produto.html">
                     <button type="button" class="btn btn-primary"> Adicionar produto </button>
-                    <button type="button" class="btn btn-primary"> Adicionar categoria </button>
                 </a>
             </div>
                 Consumindo recursos da API do Kaller <br /><br />
@@ -31,6 +30,22 @@
                         
                     </tbody>
             </table>
+            <div class="row float-right">
+              <a href="adicionar_categoria.html">
+                  <button type="button" class="btn btn-primary"> Adicionar categoria </button>
+              </a>
+          </div>
+          <table class="table table-striped" id="tabcategoria">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+              <tbody>
+                    
+            </tbody>
         </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,9 +93,26 @@
                 data: "",
                 success: function(response) {
                     response.forEach(element => {
-                        $(".table tbody").append(
+                        $("#tabproduto").append(
                         '<tr><th scope="row">' + element.id + "</th><td>" + element.descricao + "</td><td>" +  
                             '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" > ver </button> <button type="button" class="btn btn-warning"> editar </button> <button type="button" class="btn btn-danger" onclick = "delproduto('+ element.id+')"> deletar </button> ' + "</td></tr>"
+                        );
+                    });
+                },
+                error: function(data) {
+                    console.log("erro");
+                },
+                dataType: "json"
+                });
+
+                $.ajax({
+                url: "http://localhost:3000/categoria",
+                data: "",
+                success: function(response) {
+                    response.forEach(element => {
+                        $("#tabcategoria").append(
+                        '<tr><th scope="row">' + element.id + "</th><td>" + element.descricao + "</td><td>" +  
+                            '<button type=" <button type="button" class="btn btn-warning"> editar </button> <button type="button" class="btn btn-danger" onclick = "delcategoria('+ element.id+')"> deletar </button> ' + "</td></tr>"
                         );
                     });
                 },
@@ -106,6 +138,20 @@
                         dataType: "text"
                     });
            }   
+           
+           function delcategoria(id){
+            $.ajax({
+                        url: 'http://localhost:3000/categoria/' + id,
+                        type: "DELETE",
+                        success: function(response) {
+                            window.location.href = "./index.html";
+                        },
+                        error: function(data) {
+                            console.log("erro");
+                        },
+                        dataType: "text"
+                    });
+           }  
         </script>
     </body>
 </html>
