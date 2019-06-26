@@ -18,7 +18,7 @@ INSERT INTO produtos ( descricao,idcategoria )
    VALUES
    ("oilasdsdsds", 3);
 
-select  produtos.id,produtos.descricao,categoria.descricao as categoria  from produtos 
-inner join categoria on idcategoria = produtos.idcategoria = categoria.id
+select  produtos.id,produtos.descricao,categoria.descricao as categorias  from produtos 
+inner join categoria on produtos.idcategoria = categoria.id
 where produtos.id = 7
 

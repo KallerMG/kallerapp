@@ -149,12 +149,13 @@
            function verproduto(id){
             $("#ver").empty();
             $.ajax({
-                    url: "http://localhost:3000/produto/" +id,
+                    url: "http://localhost:3000/produto/ver/" +id,
+                    type: "GET",
                     data: "",
                 success: function(response) {
                     response.forEach(element => {
                         $("#ver").append(
-                            '<label for="message-text" class="col-form-label">ID:</label> <textarea class="form-control" id="message-text">' + element.id +'</textarea>' + '<label for="message-text" class="col-form-label">descricão:</label> <textarea class="form-control" id="message-text">' + element.descricao +'</textarea>' + '<label for="message-text" class="col-form-label">Categoria:</label> <textarea class="form-control" id="message-text">' + element.categoria +'</textarea>' 
+                            '<label for="message-text" class="col-form-label">ID:</label> <textarea class="form-control" id="message-text">' + element.id +'</textarea>' + '<label for="message-text" class="col-form-label">descricão:</label> <textarea class="form-control" id="message-text">' + element.descricao +'</textarea>' + '<label for="message-text" class="col-form-label">Categoria:</label> <textarea class="form-control" id="message-text">' + element.categorias +'</textarea>' 
                         );
                     });
                 },

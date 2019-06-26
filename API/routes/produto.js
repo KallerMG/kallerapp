@@ -48,7 +48,7 @@ app.get("/:id", function(request, response) {
 
 app.get("/ver/:id", function(request, response) {
     conexao.query(
-        "select  produtos.id,produtos.descricao,categoria.descricao as categoria from produtos inner join categoria on idcategoria = produtos.idcategoria = categoria.id where produtos.id = " + parseInt(request.params.id),
+        "select  produtos.id,produtos.descricao,categoria.descricao as categorias  from produtos  inner join categoria on produtos.idcategoria = categoria.id where produtos.id = " + parseInt(request.params.id),
         function(error, rows) {
             if (error) {
                 response.status(500).send(error);
