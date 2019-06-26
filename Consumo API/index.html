@@ -65,7 +65,6 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Send message</button>
                     </div>
                   </div>
                 </div>
@@ -155,7 +154,7 @@
                 success: function(response) {
                     response.forEach(element => {
                         $("#ver").append(
-                            '<label for="message-text" class="col-form-label">ID:</label> <textarea class="form-control" id="message-text">' + element.id +'</textarea>' + '<label for="message-text" class="col-form-label">descricão:</label> <textarea class="form-control" id="message-text">' + element.descricao +'</textarea>'
+                            '<label for="message-text" class="col-form-label">ID:</label> <textarea class="form-control" id="message-text">' + element.id +'</textarea>' + '<label for="message-text" class="col-form-label">descricão:</label> <textarea class="form-control" id="message-text">' + element.descricao +'</textarea>' + '<label for="message-text" class="col-form-label">Categoria:</label> <textarea class="form-control" id="message-text">' + element.categoria +'</textarea>' 
                         );
                     });
                 },
